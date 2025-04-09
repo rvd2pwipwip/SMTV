@@ -1,0 +1,25 @@
+.header {
+  width: 100%;
+  height: 80px;
+  background-color: var(--color-primary-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 var(--spacing-xl);
+  position: relative;
+  z-index: 10;
+  outline: none;
+}
+
+.header:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-focus-ring);
+}
+
+.header-title {
+  font-family: var(--font-secondary);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin: 0;
+} 

@@ -26,7 +26,6 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--spacing-xl);
 }
 
 /* Scale the app to fit the screen while maintaining aspect ratio */
@@ -95,6 +94,8 @@ html, body {
   width: 100%;
   max-width: 1200px;
   gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
+  flex: 1;
 }
 
 /* Ensure proper focus navigation */
