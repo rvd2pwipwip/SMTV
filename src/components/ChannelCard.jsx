@@ -12,9 +12,16 @@ const ChannelCard = forwardRef(({ title, onSelect, index }, ref) => {
   // Register this component when it mounts
   useEffect(() => {
     registerElement(cardId);
-    // Set initial focus on the first card
+  }, [index]);
+
+  // Separate effect for setting initial focus
+  useEffect(() => {
     if (index === 0) {
-      setFocus(cardId);
+      // Small delay to ensure registration is complete
+      const timer = setTimeout(() => {
+        setFocus(cardId);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [index]);
 
