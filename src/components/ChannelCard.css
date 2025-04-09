@@ -4,6 +4,7 @@
   width: 300px;
   cursor: pointer;
   transition: all var(--transition-duration) var(--transition-timing);
+  outline: none !important; /* Force remove outline from the card itself */
 }
 
 .channel-thumbnail {
@@ -30,17 +31,22 @@
   max-height: calc(var(--font-size-h3) * 1.5 * 2);
 }
 
-/* Remove focus from the entire card */
+/* Remove focus from the entire card - make these rules more specific and forceful */
 .channel-card:focus-visible,
 .channel-card:active,
-.channel-card:focus {
-  outline: none;
+.channel-card:focus,
+.channel-card[tabindex="0"]:focus,
+.channel-card[tabindex="-1"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* Add focus only to the thumbnail for both keyboard and mouse */
 .channel-card:focus-visible .channel-thumbnail,
 .channel-card:active .channel-thumbnail,
-.channel-card:focus .channel-thumbnail {
+.channel-card:focus .channel-thumbnail,
+.channel-card[tabindex="0"]:focus .channel-thumbnail,
+.channel-card[tabindex="-1"]:focus .channel-thumbnail {
   outline: var(--focus-outline-width) solid var(--color-focus-ring);
   transform: scale(var(--focus-scale));
 } 

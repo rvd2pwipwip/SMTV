@@ -12,11 +12,16 @@ body {
   color: var(--color-text-primary);
 }
 
+/* Remove global focus styles that might interfere with components */
 :focus {
   outline: none;
 }
 
-:focus-visible {
+/* Only apply focus-visible to elements that don't have their own focus styles */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: var(--focus-outline-width) solid var(--color-focus-ring);
 }
 
