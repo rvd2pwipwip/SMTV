@@ -77,17 +77,20 @@ function App() {
             cardRefs.current[0] = el;
           }}
           title="Sample Channel" 
-          onSelect={handleChannelSelect} 
+          onSelect={handleChannelSelect}
+          index={0}
         />
         <ChannelCard 
           ref={el => cardRefs.current[1] = el}
           title="Sample Channel" 
-          onSelect={handleChannelSelect} 
+          onSelect={handleChannelSelect}
+          index={1}
         />
         <ChannelCard 
           ref={el => cardRefs.current[2] = el}
           title="Sample Channel" 
-          onSelect={handleChannelSelect} 
+          onSelect={handleChannelSelect}
+          index={2}
         />
       </div>
     </div>
