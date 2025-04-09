@@ -1,5 +1,12 @@
 /* Design System - Based on STYLING.md */
 
+/* Reset Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   /* Color Palette */
   --color-primary: #007AFF;
@@ -62,6 +69,8 @@ body {
   font-family: var(--font-primary);
   font-size: var(--font-size-body);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Typography */
@@ -73,6 +82,24 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: var(--font-size-h1); }
 h2 { font-size: var(--font-size-h2); }
 h3 { font-size: var(--font-size-h3); }
+
+/* Focus Styles */
+:focus {
+  outline: none;
+}
+
+/* Only apply focus-visible to elements that don't have their own focus styles */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-focus-ring);
+}
+
+/* Remove outline on active elements */
+:active {
+  outline: none;
+}
 
 /* Buttons */
 .button {
