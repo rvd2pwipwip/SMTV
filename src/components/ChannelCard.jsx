@@ -25,17 +25,23 @@ const ChannelCard = forwardRef(({ title, onSelect, index }, ref) => {
     }
   }, [index]);
 
+  // Handle click or Enter key press
+  const handleSelect = () => {
+    // Pass the channel data to the onSelect callback
+    onSelect({ title, id: index });
+  };
+
   return (
     <div 
       id={cardId}
       ref={ref}
       className="channel-card" 
       tabIndex="0"
-      onClick={onSelect}
+      onClick={handleSelect}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          onSelect();
+          handleSelect();
         }
       }}
       role="button"
