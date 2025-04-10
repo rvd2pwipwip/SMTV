@@ -4,11 +4,13 @@
   left: 0;
   width: 100%;
   height: 100%;
+  padding: var(--spacing-lg);
   background-color: var(--color-background);
   color: var(--color-text-primary);
-  padding: var(--spacing-xl);
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Enable vertical scrolling */
+  align-items: center; /* Center content horizontally */
 }
 
 .channel-info-title {
@@ -17,10 +19,7 @@
 }
 
 .channel-info-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--font-size-h3);
+  margin-top: var(--spacing-md);
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
 } 

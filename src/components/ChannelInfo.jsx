@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { useScreen } from '../contexts/ScreenContext';
+import ChannelMetadata from './ChannelMetadata';
 import './ChannelInfo.css';
+import './ChannelMetadata.css';
 
-const ChannelInfo = ({ channelTitle }) => {
-  // Get the goBack function from our screen context
-  const { goBack } = useScreen();
+const ChannelInfo = () => {
+  const { selectedChannel } = useScreen();
   
   // Create a ref for the component
   const channelInfoRef = useRef(null);
@@ -36,7 +37,11 @@ const ChannelInfo = ({ channelTitle }) => {
       onKeyDown={handleKeyDown}
       autoFocus
     >
-      <h1 className="channel-info-title">{channelTitle || 'Channel Information'}</h1>
+      <ChannelMetadata
+        title={selectedChannel?.title || 'Channel Title'}
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        tags={['Cooking', 'Love', 'Third', 'Fourth Tag', 'Fifth']}
+      />
       <div className="channel-info-content">
         <p>Channel details will be displayed here</p>
         <p>Press 'B' to go back to the home screen</p>
