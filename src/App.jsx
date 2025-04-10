@@ -22,12 +22,19 @@ function App() {
     }
   }, []);
 
+  // Focus management when screen changes
   useEffect(() => {
-    // Focus the first card when component mounts and we're on the home screen
-    if (firstCardRef.current && currentScreen === SCREENS.HOME) {
-      firstCardRef.current.focus();
+    if (currentScreen === SCREENS.HOME) {
+      // When returning to home screen, focus the previously selected card
+      const cardToFocus = cardRefs.current[selectedCardIndex] || firstCardRef.current;
+      if (cardToFocus) {
+        // Small delay to ensure the DOM is updated
+        setTimeout(() => {
+          cardToFocus.focus();
+        }, 0);
+      }
     }
-  }, [currentScreen]);
+  }, [currentScreen, selectedCardIndex]);
 
   const handleKeyDown = (e) => {
     console.log('Key pressed in App:', e.key); // Debug log
