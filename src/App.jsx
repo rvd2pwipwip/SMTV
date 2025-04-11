@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Header from './components/Header';
 import ChannelInfo from './components/ChannelInfo';
-import ChannelContent from './components/ChannelContent';
+import ChannelSwimlane from './components/ChannelSwimlane';
 import { useScreen } from './contexts/ScreenContext';
 import './styles/App.css';
 
@@ -39,7 +39,7 @@ function App() {
       {currentScreen === SCREENS.HOME ? (
         <>
           <Header title="Sringray Music" />
-          <ChannelContent
+          <ChannelSwimlane
             channels={channels}
             onChannelSelect={handleChannelSelect}
           />

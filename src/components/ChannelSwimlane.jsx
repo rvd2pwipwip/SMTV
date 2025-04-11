@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigation } from '../contexts/NavigationContext';
 import ChannelCard from './ChannelCard';
-import './ChannelContent.css';
+import './ChannelSwimlane.css';
 
-const ChannelContent = ({ channels, onChannelSelect }) => {
+const ChannelSwimlane = ({ channels, onChannelSelect }) => {
   const contentRef = useRef(null);
   const cardsContainerRef = useRef(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const { registerElement, handleKeyNavigation } = useNavigation();
-  const contentId = 'channel-content';
+  const contentId = 'channel-swimlane';
   
   // Card dimensions for scrolling calculations
   const cardWidth = 300; // Width of each card
@@ -65,7 +65,7 @@ const ChannelContent = ({ channels, onChannelSelect }) => {
     <div 
       ref={contentRef}
       id={contentId}
-      className="channel-content"
+      className="channel-swimlane"
       tabIndex="0"
       onKeyDown={handleKeyDown}
     >
@@ -89,4 +89,4 @@ const ChannelContent = ({ channels, onChannelSelect }) => {
   );
 };
 
-export default ChannelContent; 
+export default ChannelSwimlane; 
