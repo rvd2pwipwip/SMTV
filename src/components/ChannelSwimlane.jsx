@@ -81,7 +81,6 @@ const ChannelSwimlane = ({ channels, onChannelSelect }) => {
             index={index}
             row={0}
             col={index}
-            isFocused={index === focusedIndex}
           />
         ))}
       </div>

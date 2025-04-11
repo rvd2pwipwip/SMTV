@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react';
 import { useNavigation } from '../contexts/NavigationContext';
 import './ChannelCard.css';
 
-const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0, isFocused: propIsFocused }, ref) => {
+const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0 }, ref) => {
   const { registerElement, setFocus, handleKeyNavigation, isInitialized, focusedElement } = useNavigation();
   const [isRegistered, setIsRegistered] = useState(false);
   
@@ -37,8 +37,8 @@ const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0, isFo
     handleKeyNavigation(e, cardId);
   };
 
-  // Use the prop if provided, otherwise use the navigation context
-  const isFocused = propIsFocused !== undefined ? propIsFocused : focusedElement === cardId;
+  // Use only the focusedElement from NavigationContext
+  const isFocused = focusedElement === cardId;
 
   return (
     <div 
