@@ -13,9 +13,9 @@
   /* Hide scrollbar but keep functionality */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  /* Add padding to ensure the first and last cards can be centered */
-  padding-left: calc(50% - 150px); /* Half of card width */
-  padding-right: calc(50% - 150px); /* Half of card width */
+  /* Set left padding to 100px and keep right padding for scrolling */
+  padding-left: 100px;
+  padding-right: 100px; /* Match left padding for consistency */
 }
 
 .cards-container::-webkit-scrollbar {

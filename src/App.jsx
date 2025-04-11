@@ -26,7 +26,14 @@ function App() {
     { id: 2, title: "Sample Channel 2" },
     { id: 3, title: "Sample Channel 3" },
     { id: 4, title: "Sample Channel 4" },
-    { id: 5, title: "Sample Channel 5" }
+    { id: 5, title: "Sample Channel 5" },
+    { id: 6, title: "Sample Channel 6" },
+    { id: 7, title: "Sample Channel 7" },
+    { id: 8, title: "Sample Channel 8" },
+    { id: 9, title: "Sample Channel 9" },
+    { id: 10, title: "Sample Channel 10" },
+    { id: 11, title: "Sample Channel 11" },
+    { id: 12, title: "Sample Channel 12" }
   ];
 
   return (
