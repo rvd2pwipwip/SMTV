@@ -6,7 +6,7 @@
 
 .cards-container {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-xl);
   overflow-x: hidden;
   scroll-behavior: smooth;
   padding: var(--spacing-sm) 0;
@@ -46,10 +46,10 @@
 
 .channel-swimlane::before {
   left: 0;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+  background: linear-gradient(to right, var(--color-surface), transparent);
 }
 
 .channel-swimlane::after {
   right: 0;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+  background: linear-gradient(to left, var(--color-surface), transparent);
 } 
