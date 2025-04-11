@@ -1,0 +1,55 @@
+.channel-content {
+  width: 100%;
+  padding: var(--spacing-lg);
+  outline: none;
+}
+
+.cards-container {
+  display: flex;
+  gap: var(--spacing-md);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: var(--spacing-sm) 0;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  /* Add padding to ensure the first and last cards can be centered */
+  padding-left: calc(50% - 150px); /* Half of card width */
+  padding-right: calc(50% - 150px); /* Half of card width */
+}
+
+.cards-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Focus styles */
+.channel-content:focus-visible {
+  outline: var(--focus-outline-width) solid var(--color-focus-ring);
+}
+
+/* Animation for card transitions */
+.cards-container {
+  transition: transform var(--transition-duration) var(--transition-timing);
+}
+
+/* Add a subtle gradient to indicate more content */
+.channel-content::before,
+.channel-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.channel-content::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+}
+
+.channel-content::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
+} 

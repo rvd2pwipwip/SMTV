@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import ChannelCard from './components/ChannelCard';
 import Header from './components/Header';
 import ChannelInfo from './components/ChannelInfo';
+import ChannelContent from './components/ChannelContent';
 import { useScreen } from './contexts/ScreenContext';
 import './styles/App.css';
 
@@ -20,6 +20,15 @@ function App() {
     navigateTo(SCREENS.CHANNEL_INFO, channelData);
   };
 
+  // Sample channel data
+  const channels = [
+    { id: 1, title: "Sample Channel 1" },
+    { id: 2, title: "Sample Channel 2" },
+    { id: 3, title: "Sample Channel 3" },
+    { id: 4, title: "Sample Channel 4" },
+    { id: 5, title: "Sample Channel 5" }
+  ];
+
   return (
     <div 
       ref={appRef}
@@ -30,29 +39,10 @@ function App() {
       {currentScreen === SCREENS.HOME ? (
         <>
           <Header title="Sringray Music" />
-          <div className="content-container">
-            <ChannelCard 
-              title="Sample Channel 1" 
-              onSelect={() => handleChannelSelect({ title: "Sample Channel 1", id: 1 })}
-              index={0}
-              row={0}
-              col={0}
-            />
-            <ChannelCard 
-              title="Sample Channel 2" 
-              onSelect={() => handleChannelSelect({ title: "Sample Channel 2", id: 2 })}
-              index={1}
-              row={0}
-              col={1}
-            />
-            <ChannelCard 
-              title="Sample Channel 3" 
-              onSelect={() => handleChannelSelect({ title: "Sample Channel 3", id: 3 })}
-              index={2}
-              row={0}
-              col={2}
-            />
-          </div>
+          <ChannelContent
+            channels={channels}
+            onChannelSelect={handleChannelSelect}
+          />
         </>
       ) : currentScreen === SCREENS.CHANNEL_INFO ? (
         <ChannelInfo channelTitle={selectedChannel?.title} />

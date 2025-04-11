@@ -51,14 +51,18 @@ export function NavigationProvider({ children }) {
 
   // Register a new element with the navigation system
   // This should be called when a component mounts
-  const registerElement = useCallback((elementId, position) => {
+  const registerElement = useCallback((elementId, position, metadata = {}) => {
     if (!position || typeof position.row !== 'number' || typeof position.col !== 'number') {
       console.error('NavigationContext: Invalid position data for element', elementId, position);
       return;
     }
     console.log('NavigationContext: Registering element', elementId, 'at position', position);
     setRegisteredElements(prev => new Set([...prev, elementId]));
-    setElementPositions(prev => new Map(prev).set(elementId, position));
+    setElementPositions(prev => new Map(prev).set(elementId, {
+      ...position,
+      type: metadata.type || 'grid',
+      group: metadata.group || null
+    }));
   }, []);
 
   const registerSpecialTarget = useCallback((targetType, elementId) => {
@@ -86,9 +90,46 @@ export function NavigationProvider({ children }) {
     }
   }, [registeredElements, specialTargets]);
 
+  // Find next element in a carousel group
+  const findNextInCarousel = useCallback((currentId, direction) => {
+    const currentPosition = elementPositions.get(currentId);
+    if (!currentPosition || !currentPosition.group) return null;
+
+    const groupElements = Array.from(registeredElements)
+      .filter(id => {
+        const pos = elementPositions.get(id);
+        return pos && pos.group === currentPosition.group;
+      })
+      .sort((a, b) => {
+        const posA = elementPositions.get(a);
+        const posB = elementPositions.get(b);
+        return posA.col - posB.col;
+      });
+
+    const currentIndex = groupElements.indexOf(currentId);
+    if (currentIndex === -1) return null;
+
+    let nextIndex;
+    if (direction === 'right') {
+      nextIndex = currentIndex + 1;
+      if (nextIndex >= groupElements.length) nextIndex = 0;
+    } else {
+      nextIndex = currentIndex - 1;
+      if (nextIndex < 0) nextIndex = groupElements.length - 1;
+    }
+
+    return groupElements[nextIndex];
+  }, [registeredElements, elementPositions]);
+
   const findNextElement = useCallback((currentPosition, direction) => {
     if (!currentPosition) return null;
 
+    // Handle carousel navigation
+    if (currentPosition.type === 'carousel') {
+      return findNextInCarousel(currentPosition.elementId, direction);
+    }
+
+    // Default grid navigation
     const { row, col } = currentPosition;
     let targetPosition;
 
@@ -154,7 +195,7 @@ export function NavigationProvider({ children }) {
     }
 
     return nextElementId;
-  }, [registeredElements, elementPositions, specialTargets]);
+  }, [registeredElements, elementPositions, specialTargets, findNextInCarousel]);
 
   const handleKeyNavigation = useCallback((event, currentElementId) => {
     console.log('NavigationContext: Handling key navigation', event.key, 'for element', currentElementId);
