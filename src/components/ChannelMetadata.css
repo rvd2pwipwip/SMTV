@@ -6,7 +6,7 @@
 .thumbnail-placeholder {
   width: 400px;
   height: 400px;
-  background-color: var(--color-text-secondary);
+  background-color: var(--color-image-placeholder);
 }
 
 .channel-content {
