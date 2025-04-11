@@ -12,13 +12,11 @@ const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0 }, re
   useEffect(() => {
     registerElement(cardId, { row, col });
     setIsRegistered(true);
-    console.log(`Card ${cardId} registered at position:`, { row, col });
   }, [cardId, row, col, registerElement]);
 
   // Handle initial focus for the first card
   useEffect(() => {
     if (index === 0 && isInitialized) {
-      console.log(`ChannelCard: Setting initial focus to ${cardId}`);
       setFocus(cardId);
     }
   }, [index, cardId, setFocus, isInitialized]);
@@ -28,8 +26,6 @@ const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0 }, re
   };
 
   const handleKeyDown = (e) => {
-    console.log(`Key pressed on ${cardId}:`, e.key);
-    
     // Handle Enter/Space for selection
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -53,25 +49,9 @@ const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0 }, re
       onKeyDown={handleKeyDown}
       role="button"
       aria-label={title}
-      style={{
-        border: isFocused ? '2px solid red' : 'none',
-        position: 'relative'
-      }}
     >
       <div className="channel-thumbnail"></div>
       <div className="channel-title">{title}</div>
-      {/* Debug info */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        background: 'rgba(0,0,0,0.7)',
-        color: 'white',
-        padding: '2px',
-        fontSize: '10px'
-      }}>
-        {isRegistered ? '✓' : '×'} {isInitialized ? 'I' : 'i'} {isFocused ? 'F' : 'f'}
-      </div>
     </div>
   );
 });
