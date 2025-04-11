@@ -42,10 +42,6 @@ const ChannelInfo = () => {
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         tags={['Cooking', 'Love', 'Third', 'Fourth Tag', 'Fifth']}
       />
-      <div className="channel-info-content">
-        <p>Channel details will be displayed here</p>
-        <p>Press 'B' to go back to the home screen</p>
-      </div>
     </div>
   );
 };

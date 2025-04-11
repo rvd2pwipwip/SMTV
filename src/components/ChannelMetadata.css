@@ -2,14 +2,13 @@
   display: flex;
   align-items: flex-start;
   padding: var(--spacing-lg);
-  background-color: greenyellow;
+  /* background-color: greenyellow; */
 }
 
 .thumbnail-placeholder {
   width: 150px;
   height: 150px;
-  /* background-color: var(--color-surface); */
-  background-color: red;
+  background-color: var(--color-text-secondary);
   border-radius: var(--card-radius);
   margin-right: var(--spacing-md);
 }
