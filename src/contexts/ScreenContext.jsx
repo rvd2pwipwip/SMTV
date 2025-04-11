@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Define the available screens in our application
 // This enum-like object helps us avoid typos and makes screen names consistent
@@ -30,9 +30,23 @@ export function ScreenProvider({ children }) {
   // Track which channel is selected (for the channel info screen)
   const [selectedChannel, setSelectedChannel] = useState(null);
   
+  // Listen for back navigation events from NavigationContext
+  useEffect(() => {
+    const handleBackNavigation = () => {
+      console.log('ScreenContext: Received back navigation event');
+      goBack();
+    };
+    
+    window.addEventListener('navigation:back', handleBackNavigation);
+    
+    return () => {
+      window.removeEventListener('navigation:back', handleBackNavigation);
+    };
+  }, []);
+  
   // Navigate to a specific screen
   const navigateTo = (screen, data = null) => {
-    console.log(`Navigating to ${screen}`, data); // Debug log
+     console.log(`Navigating to ${screen}`, data); // Debug log
     setCurrentScreen(screen);
     
     // If we're navigating to the channel info screen, store the channel data

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 // Create the navigation context
 const NavigationContext = createContext();
@@ -15,39 +15,184 @@ export function useNavigation() {
 
 // The provider component that manages navigation state
 export function NavigationProvider({ children }) {
-  // Track all elements that can receive focus
-  // Using Set for efficient lookup and uniqueness
   const [registeredElements, setRegisteredElements] = useState(new Set());
-  
-  // Track which element is currently focused
   const [focusedElement, setFocusedElement] = useState(null);
-  
-  // Keep history of focused elements for back/forward navigation
   const [navigationHistory, setNavigationHistory] = useState([]);
+  const [elementPositions, setElementPositions] = useState(new Map());
+  const [pendingFocus, setPendingFocus] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [specialTargets, setSpecialTargets] = useState({
+    header: null,
+    miniPlayer: null
+  });
+
+  // Effect to handle initial focus after all elements are registered
+  useEffect(() => {
+    if (isInitialized && pendingFocus && registeredElements.has(pendingFocus)) {
+      console.log('NavigationContext: Applying pending focus to', pendingFocus);
+      const element = document.getElementById(pendingFocus);
+      if (element) {
+        element.focus();
+        setFocusedElement(pendingFocus);
+        setNavigationHistory(prev => [...prev, pendingFocus]);
+      }
+      setPendingFocus(null);
+    }
+  }, [isInitialized, pendingFocus, registeredElements]);
+
+  // Effect to mark initialization complete after a short delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('NavigationContext: Initialization complete');
+      setIsInitialized(true);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Register a new element with the navigation system
   // This should be called when a component mounts
-  const registerElement = (elementId) => {
+  const registerElement = useCallback((elementId, position) => {
+    if (!position || typeof position.row !== 'number' || typeof position.col !== 'number') {
+      console.error('NavigationContext: Invalid position data for element', elementId, position);
+      return;
+    }
+    console.log('NavigationContext: Registering element', elementId, 'at position', position);
     setRegisteredElements(prev => new Set([...prev, elementId]));
-  };
+    setElementPositions(prev => new Map(prev).set(elementId, position));
+  }, []);
+
+  const registerSpecialTarget = useCallback((targetType, elementId) => {
+    console.log('NavigationContext: Registering special target', targetType, elementId);
+    setSpecialTargets(prev => ({
+      ...prev,
+      [targetType]: elementId
+    }));
+  }, []);
 
   // Update focus to a specific element
   // Only works if the element has been registered
-  const setFocus = (elementId) => {
-    if (registeredElements.has(elementId)) {
-      setFocusedElement(elementId);
-      setNavigationHistory(prev => [...prev, elementId]);
+  const setFocus = useCallback((elementId) => {
+    console.log('NavigationContext: Setting focus to', elementId);
+    if (registeredElements.has(elementId) || specialTargets.header === elementId || specialTargets.miniPlayer === elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.focus();
+        setFocusedElement(elementId);
+        setNavigationHistory(prev => [...prev, elementId]);
+      }
     } else {
-      console.warn(`Attempted to focus unregistered element: ${elementId}`);
+      console.log('NavigationContext: Element not yet registered, queueing focus request for', elementId);
+      setPendingFocus(elementId);
     }
-  };
+  }, [registeredElements, specialTargets]);
+
+  const findNextElement = useCallback((currentPosition, direction) => {
+    if (!currentPosition) return null;
+
+    const { row, col } = currentPosition;
+    let targetPosition;
+
+    switch (direction) {
+      case 'right':
+        targetPosition = { row, col: col + 1 };
+        break;
+      case 'left':
+        targetPosition = { row, col: col - 1 };
+        break;
+      case 'down':
+        // If we're in the header (row -1), find the first card in row 0
+        if (row === -1) {
+          return Array.from(registeredElements).find(id => {
+            const pos = elementPositions.get(id);
+            return pos && pos.row === 0 && pos.col === 0;
+          });
+        }
+        // For now, return null for down navigation from cards (will be mini player later)
+        return null;
+      case 'up':
+        // Return the header element ID for up navigation
+        return specialTargets.header;
+      default:
+        return null;
+    }
+
+    return Array.from(registeredElements).find(id => {
+      const pos = elementPositions.get(id);
+      return pos && pos.row === targetPosition.row && pos.col === targetPosition.col;
+    });
+  }, [registeredElements, elementPositions, specialTargets]);
+
+  const handleKeyNavigation = useCallback((event, currentElementId) => {
+    console.log('NavigationContext: Handling key navigation', event.key, 'for element', currentElementId);
+    
+    // Handle back navigation with the 'B' key
+    if (event.key === 'b' || event.key === 'B') {
+      console.log('NavigationContext: Back key pressed');
+      // Dispatch a custom event that the ScreenContext can listen for
+      const backEvent = new CustomEvent('navigation:back');
+      window.dispatchEvent(backEvent);
+      event.preventDefault();
+      return;
+    }
+    
+    if (!currentElementId) {
+      console.log('NavigationContext: No current element ID provided');
+      return;
+    }
+
+    const currentPosition = elementPositions.get(currentElementId);
+    if (!currentPosition && !specialTargets.header && !specialTargets.miniPlayer) {
+      console.log('NavigationContext: No position found for element', currentElementId);
+      return;
+    }
+
+    let nextElementId = null;
+
+    switch (event.key) {
+      case 'ArrowRight':
+        nextElementId = findNextElement(currentPosition, 'right');
+        break;
+      case 'ArrowLeft':
+        nextElementId = findNextElement(currentPosition, 'left');
+        break;
+      case 'ArrowDown':
+        nextElementId = findNextElement(currentPosition, 'down');
+        break;
+      case 'ArrowUp':
+        nextElementId = findNextElement(currentPosition, 'up');
+        break;
+    }
+
+    if (nextElementId) {
+      console.log('NavigationContext: Found next element', nextElementId);
+      event.preventDefault();
+      setFocus(nextElementId);
+    } else {
+      console.log('NavigationContext: No next element found');
+    }
+  }, [elementPositions, findNextElement, setFocus, specialTargets]);
+
+  // Debug info
+  useEffect(() => {
+    console.log('NavigationContext State:', {
+      registeredElements: Array.from(registeredElements),
+      focusedElement,
+      elementPositions: Array.from(elementPositions.entries()),
+      isInitialized,
+      pendingFocus,
+      specialTargets
+    });
+  }, [registeredElements, focusedElement, elementPositions, isInitialized, pendingFocus, specialTargets]);
 
   // The value object that will be provided to all children
   const value = {
     focusedElement,
     setFocus,
     registerElement,
-    navigationHistory
+    registerSpecialTarget,
+    navigationHistory,
+    handleKeyNavigation,
+    isInitialized
   };
 
   return (

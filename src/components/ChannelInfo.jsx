@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useScreen } from '../contexts/ScreenContext';
+import { useNavigation } from '../contexts/NavigationContext';
 import ChannelMetadata from './ChannelMetadata';
 import './ChannelInfo.css';
 import './ChannelMetadata.css';
 
 const ChannelInfo = () => {
-  const { selectedChannel } = useScreen();
+  const { selectedChannel, goBack } = useScreen();
+  const { handleKeyNavigation } = useNavigation();
   
   // Create a ref for the component
   const channelInfoRef = useRef(null);
@@ -21,12 +23,8 @@ const ChannelInfo = () => {
   const handleKeyDown = (e) => {
     console.log('Key pressed in ChannelInfo:', e.key); // Debug log
     
-    // Handle back navigation with the 'B' key
-    if (e.key === 'b' || e.key === 'B') {
-      e.preventDefault();
-      console.log('Back key pressed, calling goBack()'); // Debug log
-      goBack();
-    }
+    // Let NavigationContext handle the key event
+    handleKeyNavigation(e);
   };
 
   return (
