@@ -1,22 +1,22 @@
 .channel-card {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: var(--card-width);
   cursor: pointer;
   transition: all var(--transition-duration) var(--transition-timing);
   outline: none !important; /* Force remove outline from the card itself */
 }
 
 .channel-thumbnail {
-  width: 300px;
-  height: 300px;
+  width: var(--card-width);
+  height: var(--card-height);
   background-color: var(--color-image-placeholder); /* Gray placeholder */
   border-radius: var(--card-radius);
   margin-bottom: var(--spacing-md);
   transition: all var(--transition-duration) var(--transition-timing);
 }
 
-.channel-title {
+.channel-card-title {
   font-family: var(--font-primary);
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-medium);
@@ -47,6 +47,12 @@
 .channel-card:focus .channel-thumbnail,
 .channel-card[tabindex="0"]:focus .channel-thumbnail,
 .channel-card[tabindex="-1"]:focus .channel-thumbnail {
+  outline: var(--focus-outline-width) solid var(--color-focus-ring);
+  transform: scale(var(--focus-scale));
+}
+
+/* Add the focused class for programmatic focus */
+.channel-card.focused .channel-thumbnail {
   outline: var(--focus-outline-width) solid var(--color-focus-ring);
   transform: scale(var(--focus-scale));
 } 

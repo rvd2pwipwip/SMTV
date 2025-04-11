@@ -116,10 +116,44 @@ export function NavigationProvider({ children }) {
         return null;
     }
 
-    return Array.from(registeredElements).find(id => {
+    // Find the element at the target position
+    const nextElementId = Array.from(registeredElements).find(id => {
       const pos = elementPositions.get(id);
       return pos && pos.row === targetPosition.row && pos.col === targetPosition.col;
     });
+
+    // If no element found at the exact position, find the closest one
+    if (!nextElementId) {
+      // For horizontal navigation, find the closest element in the same row
+      if (direction === 'right' || direction === 'left') {
+        const sameRowElements = Array.from(registeredElements).filter(id => {
+          const pos = elementPositions.get(id);
+          return pos && pos.row === row;
+        });
+
+        // Sort by column position
+        const sortedElements = sameRowElements.sort((a, b) => {
+          const posA = elementPositions.get(a);
+          const posB = elementPositions.get(b);
+          return posA.col - posB.col;
+        });
+
+        // Find the current element's index
+        const currentIndex = sortedElements.findIndex(id => {
+          const pos = elementPositions.get(id);
+          return pos && pos.row === row && pos.col === col;
+        });
+
+        // Get the next or previous element
+        if (direction === 'right' && currentIndex < sortedElements.length - 1) {
+          return sortedElements[currentIndex + 1];
+        } else if (direction === 'left' && currentIndex > 0) {
+          return sortedElements[currentIndex - 1];
+        }
+      }
+    }
+
+    return nextElementId;
   }, [registeredElements, elementPositions, specialTargets]);
 
   const handleKeyNavigation = useCallback((event, currentElementId) => {

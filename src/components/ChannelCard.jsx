@@ -51,7 +51,7 @@ const ChannelCard = forwardRef(({ title, onSelect, index, row = 0, col = 0 }, re
       aria-label={title}
     >
       <div className="channel-thumbnail"></div>
-      <div className="channel-title">{title}</div>
+      <div className="channel-card-title">{title}</div>
     </div>
   );
 });
