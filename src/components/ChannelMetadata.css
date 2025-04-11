@@ -1,43 +1,41 @@
 .channel-metadata {
   display: flex;
   align-items: flex-start;
-  padding: var(--spacing-lg);
-  /* background-color: greenyellow; */
 }
 
 .thumbnail-placeholder {
-  width: 150px;
-  height: 150px;
+  width: 400px;
+  height: 400px;
   background-color: var(--color-text-secondary);
-  border-radius: var(--card-radius);
-  margin-right: var(--spacing-md);
 }
 
-.channel-info {
-  flex: 1;
+.channel-content {
+  margin-left: var(--spacing-md);
 }
 
 .channel-title {
-  font-size: var(--font-size-h2);
-  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-h1);
   color: var(--color-text-primary);
 }
 
+.channel-actions {
+  margin-top: var(--spacing-sm);
+}
+
 .channel-description {
-  font-size: var(--font-size-body);
-  margin-bottom: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
   color: var(--color-text-secondary);
 }
 
 .channel-tags {
   display: flex;
   gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
 }
 
 .channel-tag {
   background-color: var(--color-surface);
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--button-radius);
-  font-size: var(--font-size-small);
   color: var(--color-text-primary);
 } 

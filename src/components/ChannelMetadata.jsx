@@ -5,7 +5,8 @@ const ChannelMetadata = ({ title, description, tags }) => {
   return (
     <div className="channel-metadata">
       <div className="thumbnail-placeholder"></div>
-      <h1 className="channel-title">{title}</h1>
+      <div className="channel-content">
+        <h1 className="channel-title">{title}</h1>
         <div className="channel-actions">
           <button className="play-button">Play</button>
           <button className="favorites-button">Add to Favorites</button>
@@ -16,6 +17,7 @@ const ChannelMetadata = ({ title, description, tags }) => {
             <span key={index} className="channel-tag">{tag}</span>
           ))}
         </div>
+      </div>
     </div>
   );
 };
