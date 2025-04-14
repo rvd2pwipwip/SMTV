@@ -7,16 +7,57 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Enable vertical scrolling */
-  align-items: center; /* Center content horizontally */
 }
 
-.channel-info-title {
+.channel-info__content {
+  display: flex;
+  gap: var(--spacing-xxl);
+  max-width: 1600px;
+  margin: 0 var(--screen-margins);
+}
+
+.channel-info__thumbnail {
+  flex: 0 0 400px;
+  height: 400px;
+  background-color: var(--color-image-placeholder);
+  border-radius: var(--card-radius);
+}
+
+.channel-info__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxl);
+}
+
+.channel-info__title {
   font-size: var(--font-size-h1);
-  margin-bottom: var(--spacing-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
 }
 
-.channel-info-content {
-  margin-top: var(--spacing-md);
-  font-size: var(--font-size-body);
+.channel-info__actions {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.channel-info__description {
+  font-size: var(--font-size-h3);
+  line-height: 1.6;
   color: var(--color-text-secondary);
+  max-width: 800px;
+}
+
+.channel-info__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+
+/* Icon styles */
+.icon {
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 } 
