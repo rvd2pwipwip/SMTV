@@ -42,16 +42,16 @@ function App() {
     switch (currentScreen) {
       case SCREENS.HOME:
         return (
-          <>
+          <ScreenLayout title="Home Screen">
             <Header title="Sringray Music" />
             <ChannelSwimlane
               channels={channels}
               onChannelSelect={handleChannelSelect}
             />
-          </>
+          </ScreenLayout>
         );
       case SCREENS.CHANNEL_INFO:
-        return <ChannelInfo channelTitle={selectedChannel?.title} />;
+        return <ChannelInfo />;
       default:
         return null;
     }
@@ -64,9 +64,7 @@ function App() {
       tabIndex="0"
       autoFocus
     >
-      <ScreenLayout title={currentScreen === SCREENS.HOME ? "Home Screen" : "Channel Info"}>
-        {renderScreenContent()}
-      </ScreenLayout>
+      {renderScreenContent()}
     </div>
   );
 }
