@@ -1,6 +1,6 @@
 .channel-swimlane {
   width: 100%;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
   outline: none;
 }
 
@@ -9,7 +9,7 @@
   gap: var(--spacing-xl);
   overflow-x: hidden;
   scroll-behavior: smooth;
-  padding: var(--spacing-sm) 0;
+  padding: calc(var(--spacing-sm) + var(--focus-outline-width)) 0;
   /* Hide scrollbar but keep functionality */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
