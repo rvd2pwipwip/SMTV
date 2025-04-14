@@ -49,8 +49,8 @@
 
   /* Component Sizes */
   --button-height: 48px;
-  --button-padding: 16px 24px;
-  --button-radius: 8px;
+  --button-padding: 2rem 2rem;
+  --button-radius: calc(var(--button-height));
   --card-padding: 24px;
   --card-radius: 24px;
   --card-width: 300px;
@@ -126,7 +126,7 @@ textarea:focus-visible {
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
+  outline: 10px solid var(--color-focus-ring);
   transform: scale(var(--focus-scale));
 }
 
