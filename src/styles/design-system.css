@@ -197,8 +197,8 @@ textarea:focus-visible {
   height: var(--button-height);
   padding: var(--button-padding);
   border-radius: var(--button-radius);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -8,13 +8,14 @@ const ChannelInfo = () => {
   const { selectedChannel, goBack } = useScreen();
   const { handleKeyNavigation } = useNavigation();
   
-  // Create a ref for the component
+  // Create refs for the component and play button
   const channelInfoRef = useRef(null);
+  const playButtonRef = useRef(null);
   
-  // Focus the component when it mounts
+  // Focus the play button when component mounts
   useEffect(() => {
-    if (channelInfoRef.current) {
-      channelInfoRef.current.focus();
+    if (playButtonRef.current) {
+      playButtonRef.current.focus();
     }
   }, []);
   
@@ -43,7 +44,6 @@ const ChannelInfo = () => {
         className="channel-info" 
         tabIndex="0" 
         onKeyDown={handleKeyDown}
-        autoFocus
       >
         <div className="channel-info__content">
           <div className="channel-info__thumbnail">
@@ -57,6 +57,7 @@ const ChannelInfo = () => {
             
             <div className="channel-info__actions">
               <button 
+                ref={playButtonRef}
                 className="tv-button tv-button--primary"
                 onClick={handlePlay}
               >
