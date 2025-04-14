@@ -2,6 +2,7 @@
   width: 100%;
   padding: var(--spacing-lg) 0;
   outline: none;
+  position: relative; /* Ensure position is relative for absolute positioning of children */
 }
 
 .cards-container {
@@ -13,9 +14,11 @@
   /* Hide scrollbar but keep functionality */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  /* Set left padding to 100px and keep right padding for scrolling */
-  padding-left: 100px;
-  padding-right: 100px; /* Match left padding for consistency */
+  /* Remove the left padding since we're using a spacer div instead */
+  padding-right: 100px; /* Keep right padding for consistency */
+  /* Ensure the first card starts exactly at 100px from the left edge */
+  margin-left: 0;
+  box-sizing: border-box;
 }
 
 .cards-container::-webkit-scrollbar {
@@ -39,17 +42,17 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 100px;
+  width: 150px; /* Increased width for better visibility */
   pointer-events: none;
-  z-index: 1;
+  z-index: 5; /* Increased z-index to ensure visibility */
 }
 
 .channel-swimlane::before {
   left: 0;
-  background: linear-gradient(to right, var(--color-surface), transparent);
+  background: linear-gradient(to right, var(--color-surface) 0%, transparent 100%);
 }
 
 .channel-swimlane::after {
   right: 0;
-  background: linear-gradient(to left, var(--color-surface), transparent);
+  background: linear-gradient(to left, var(--color-surface) 0%, transparent 100%);
 } 

@@ -15,6 +15,7 @@ const ChannelSwimlane = ({ channels, onChannelSelect }) => {
   const cardWidth = 300; // Width of each card
   const cardGap = 16; // Gap between cards (var(--spacing-md))
   const visibleCards = 4; // Number of cards visible at once
+  const leftPadding = 120; // Increased left padding to ensure 100px from edge
   
   // Register this content as a carousel navigation type
   useEffect(() => {
@@ -29,6 +30,7 @@ const ChannelSwimlane = ({ channels, onChannelSelect }) => {
   // Scroll to the focused card
   useEffect(() => {
     if (cardsContainerRef.current) {
+      // Calculate scroll position with left padding consideration
       const scrollAmount = focusedIndex * (cardWidth + cardGap);
       cardsContainerRef.current.scrollTo({
         left: scrollAmount,
@@ -73,6 +75,9 @@ const ChannelSwimlane = ({ channels, onChannelSelect }) => {
         ref={cardsContainerRef}
         className="cards-container"
       >
+        {/* Add a spacer div to position the first card at 100px from the left */}
+        <div style={{ width: `${leftPadding}px`, flexShrink: 0 }}></div>
+        
         {channels.map((channel, index) => (
           <ChannelCard
             key={channel.id}

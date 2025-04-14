@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Header from './components/Header';
 import ChannelInfo from './components/ChannelInfo';
 import ChannelSwimlane from './components/ChannelSwimlane';
+import ScreenLayout from './components/ScreenLayout';
 import { useScreen } from './contexts/ScreenContext';
 import './styles/App.css';
 
@@ -36,6 +37,26 @@ function App() {
     { id: 12, title: "Sample Channel 12" }
   ];
 
+  // Render the appropriate screen content based on currentScreen
+  const renderScreenContent = () => {
+    switch (currentScreen) {
+      case SCREENS.HOME:
+        return (
+          <>
+            <Header title="Sringray Music" />
+            <ChannelSwimlane
+              channels={channels}
+              onChannelSelect={handleChannelSelect}
+            />
+          </>
+        );
+      case SCREENS.CHANNEL_INFO:
+        return <ChannelInfo channelTitle={selectedChannel?.title} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div 
       ref={appRef}
@@ -43,17 +64,9 @@ function App() {
       tabIndex="0"
       autoFocus
     >
-      {currentScreen === SCREENS.HOME ? (
-        <>
-          <Header title="Sringray Music" />
-          <ChannelSwimlane
-            channels={channels}
-            onChannelSelect={handleChannelSelect}
-          />
-        </>
-      ) : currentScreen === SCREENS.CHANNEL_INFO ? (
-        <ChannelInfo channelTitle={selectedChannel?.title} />
-      ) : null}
+      <ScreenLayout title={currentScreen === SCREENS.HOME ? "Home Screen" : "Channel Info"}>
+        {renderScreenContent()}
+      </ScreenLayout>
     </div>
   );
 }
